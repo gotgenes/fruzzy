@@ -15,6 +15,10 @@ if pkgPath not in sys.path:
 
 import fruzzy
 
+
+LIMIT = 1000
+
+
 class Filter(Base):
 
     def __init__(self, vim):
@@ -53,13 +57,11 @@ class Filter(Base):
         # self.debug("context: %s" % context)
         ispath = candidates and 'action__path' in candidates[0]
         # self.debug("candidates %s %s" % (qry, len(candidates)))
-        limit = context['winheight']
-        limit = int(limit) if isinstance(limit, str) else limit
         buffer = context['bufnr']
         buffer = int(buffer) if isinstance(buffer, str) else buffer
         sortOnEmptyQuery = self.vim.vars.get("fruzzy#sortonempty", 1)
         results = self.scoreMatchesProxy(qry, candidates,
-                                         limit,
+                                         LIMIT,
                                          key=lambda x: x['word'],
                                          ispath=ispath,
                                          buffer=buffer,
